@@ -1,0 +1,9 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: product-service
+  data:
+    mongodb:
+      uri: mongodb://mongo_dev:mongo_dev@localhost:27017/mongo_dev

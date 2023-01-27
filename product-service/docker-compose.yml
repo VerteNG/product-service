@@ -1,0 +1,30 @@
+version: '3.8'
+name: product-service-with-mongodb
+
+services:
+  product-service:
+    image: product-service:latest
+    container_name: product-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_dev:mongo_dev@mongodb:27017/mongo_dev
+    ports:
+      - "8090:8090"
+    depends_on:
+      - mongodb
+    restart: on-failure
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: root-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo-init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    restart: on-failure
